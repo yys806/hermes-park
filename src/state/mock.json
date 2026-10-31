@@ -1,0 +1,20 @@
+{
+  "updatedAt": "2026-10-25T15:00:00+08:00",
+  "summary": { "running": 2, "queued": 3, "attention": 0, "doneToday": 6 },
+  "factories": {
+    "study":   { "status": "idle",    "label": "学习科研", "active": 0, "queued": 0 },
+    "daily":   { "status": "running", "label": "日常事务", "active": 1, "queued": 0 },
+    "rainbow": { "status": "idle",    "label": "彩虹事务", "active": 0, "queued": 0 },
+    "family":  { "status": "idle",    "label": "家人事务", "active": 0, "queued": 0 },
+    "idea":    { "status": "running", "label": "奇思妙想", "active": 1, "queued": 2 },
+    "notify":  { "status": "queued",  "label": "通知待办", "active": 0, "queued": 2 },
+    "asset":   { "status": "idle",    "label": "资产管理", "active": 0, "queued": 0 },
+    "news":    { "status": "queued",  "label": "咨询新闻", "active": 0, "queued": 1 }
+  },
+  "agents": {
+    "clawd": { "status": "processing", "label": "Claude", "task": "园区建模" },
+    "pi":    { "status": "idle",       "label": "Pi",     "task": null },
+    "codex": { "status": "processing", "label": "Codex",  "task": "代码审查" }
+  },
+  "hub": { "label": "Webhook 中台", "inFlight": 5, "spinning": true }
+}

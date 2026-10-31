@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>园区总场景 · 预览</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./style.css?v=20261031-p5">
+<script type="importmap">
+{
+  "imports": {
+    "three": "../vendor/three/three.module.js",
+    "three/addons/": "../vendor/three/addons/"
+  }
+}
+</script>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <canvas id="canvas" aria-label="园区 3D 视图：左键旋转，右键平移，滚轮缩放，双击空白回全景"></canvas>
+    <div class="plate" id="plate" hidden></div>
+    <div class="plate plate--focus" id="focusPlate" hidden></div>
+  </main>
+
+  <header class="bar">
+    <span class="bar__title">园区总场景</span>
+    <span class="focus-chip" id="focusChip" hidden>已聚焦：<b id="focusName"></b></span>
+    <div class="bar__btns">
+      <button class="btn" id="btnHome" type="button" title="回到全景，退出聚焦（双击空白 / R）">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8.5 8 3l6 5.5" /><path d="M4 7.5V13h8V7.5" /></svg>
+        <span>全景</span>
+      </button>
+      <button class="btn" id="btnDemo" type="button" aria-pressed="false" title="演示：一天压成 60 秒（Esc 退出）">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z" /></svg>
+        <span>演示</span>
+      </button>
+      <button class="btn" id="btnCloud" type="button" aria-haspopup="dialog" aria-expanded="false" title="飞书云表入口">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="3" width="11" height="10" rx="1.6" /><path d="M2.5 6.5h11M6.5 6.5V13" /></svg>
+        <span>云表</span>
+      </button>
+      <a class="btn btn--link" href="../viewer/index.html" title="去模型库（单个地块的模型详情）">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v10H6M10 3h2.5v10H10M3 8h10" /></svg>
+        <span>模型库</span>
+      </a>
+      <button class="btn" id="btnRotate" type="button" aria-pressed="false" title="自动旋转">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9" /><path d="M12.5 1.5v3h-3" /></svg>
+        <span>自动旋转</span>
+      </button>
+      <div class="seg seg--spin" data-group="spin" role="group" aria-label="旋转速度">
+        <button type="button" data-v="slow" aria-pressed="false">慢</button><button type="button" data-v="mid" aria-pressed="true">中</button><button type="button" data-v="fast" aria-pressed="false">快</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="cloudpop" id="cloudPop" role="dialog" aria-label="云表入口" hidden>
+    <h3 class="cloudpop__title">云表入口</h3>
+    <div class="cloudpop__list" id="cloudList"></div>
+    <p class="cloudpop__foot">在飞书新窗口打开</p>
+  </div>
+
+  <nav class="envbar" aria-label="环境与画质">
+    <div class="seg" data-group="source" role="group" aria-label="模式">
+      <button data-v="manual" aria-pressed="true">手动</button><button data-v="live">跟随</button>
+    </div>
+    <div class="seg" data-group="season" role="group" aria-label="季节">
+      <span class="seg__label">季节</span>
+      <button type="button" data-v="spring" aria-pressed="false">春</button>
+      <button type="button" data-v="summer" aria-pressed="false">夏</button>
+      <button type="button" data-v="autumn" aria-pressed="false">秋</button>
+      <button type="button" data-v="winter" aria-pressed="false">冬</button>
+    </div>
+    <div class="seg" data-group="time" role="group" aria-label="昼夜">
+      <span class="seg__label">昼夜</span>
+      <button type="button" data-v="day" aria-pressed="true">日间</button>
+      <button type="button" data-v="night" aria-pressed="false">夜间</button>
+    </div>
+    <div class="seg" data-group="weather" role="group" aria-label="天气">
+      <span class="seg__label">天气</span>
+      <button type="button" data-v="sunny" aria-pressed="true">晴</button>
+      <button type="button" data-v="overcast" aria-pressed="false">阴</button>
+      <button type="button" data-v="rain" aria-pressed="false">雨</button>
+      <button type="button" data-v="snow" aria-pressed="false">雪</button>
+    </div>
+    <div class="seg" data-group="quality" role="group" aria-label="画质">
+      <span class="seg__label">画质</span>
+      <button type="button" data-v="low" aria-pressed="false">低</button>
+      <button type="button" data-v="mid" aria-pressed="true">中</button>
+      <button type="button" data-v="high" aria-pressed="false">高</button>
+      <span class="seg__note" id="qualityNote" hidden></span>
+    </div>
+  </nav>
+
+  <aside class="leftbar" id="leftbar" aria-label="本周任务">
+    <header class="leftbar__head">
+      <button class="leftbar__toggle" id="lbToggle" type="button" aria-label="收起本周任务" title="收起">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5 5.5 8l4.5 4.5" /></svg>
+      </button>
+      <h2>本周任务</h2>
+      <p class="leftbar__sub"><span id="lbTodoCount">–</span> 待办 · <span id="lbCronCount">–</span> Cron</p>
+    </header>
+    <div class="leftbar__list" id="lbList"></div>
+  </aside>
+
+  <button class="lb-fab" id="lbFab" type="button" aria-label="展开本周任务" title="本周任务" hidden>
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 4.5h7M5.5 8h7M5.5 11.5h7" /><circle cx="3" cy="4.5" r=".6" /><circle cx="3" cy="8" r=".6" /><circle cx="3" cy="11.5" r=".6" /></svg>
+    <span class="lb-fab__n" id="lbFabN"></span>
+  </button>
+
+  <aside class="envhud" aria-label="时间与天气">
+    <div class="envhud__row">
+      <time class="envhud__time" id="envTime">--:--</time>
+      <span class="envhud__date" id="envDate"></span>
+    </div>
+    <div class="envhud__row envhud__weather">
+      <svg viewBox="0 0 16 16" aria-hidden="true" id="envIcon"></svg>
+      <span id="envWeather"></span>
+      <span class="envhud__mode" id="envMode">手动</span>
+    </div>
+    <div class="envhud__row envhud__sub">
+      <span id="envPlace"></span>
+      <span id="envSun"></span>
+    </div>
+  </aside>
+
+  <div class="load" id="load" role="status" aria-live="polite">
+    <div class="load__track"><div class="load__bar" id="loadBar"></div></div>
+    <span class="load__text" id="loadText">准备中…</span>
+  </div>
+
+  <aside class="card" id="card" hidden>
+    <header class="card__head">
+      <h2 class="card__title" id="cardTitle"></h2>
+      <button class="card__close" id="cardClose" type="button" aria-label="关闭">×</button>
+    </header>
+    <nav class="card__tabs" id="cardTabs" role="tablist">
+      <button data-tab="duty" aria-pressed="true" role="tab">职责</button>
+      <button data-tab="now" aria-pressed="false" role="tab">此刻</button>
+      <button data-tab="work" aria-pressed="false" role="tab">待办 · Cron</button>
+    </nav>
+    <section class="pane" id="paneDuty"></section>
+    <section class="pane" id="paneNow" hidden></section>
+    <section class="pane" id="paneWork" hidden></section>
+    <details class="card__meta">
+      <summary>模型参数</summary>
+      <dl class="card__body" id="cardBody"></dl>
+    </details>
+  </aside>
+
+  <div class="report" id="reportWrap" hidden>
+    <div class="report__box">
+      <header class="report__head">
+        <h3 id="reportTitle">任务报告</h3>
+        <button type="button" id="reportClose" aria-label="关闭">×</button>
+      </header>
+      <p class="report__meta" id="reportMeta"></p>
+      <pre class="report__body" id="reportBody"></pre>
+    </div>
+  </div>
+
+  <p class="hint">左键旋转 · 右键平移 · 滚轮缩放 · 点击地块聚焦 · 双击空白回全景</p>
+  <p class="hud" id="hud"></p>
+
+  <script type="module" src="./park.js?v=20261031-p22"></script>
+</body>
+</html>

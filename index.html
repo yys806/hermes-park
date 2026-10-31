@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>园区中控台 · Hermes 自动化可视化</title>
+<style>
+  :root { --bg:#F7F3E9; --ink:#4A3B2A; --hint:#B8AE9C; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; height:100%; overflow:hidden; background:var(--bg); }
+  body { font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+  #app { position:fixed; inset:0; touch-action:none; }
+  canvas { display:block; }
+  #hint {
+    position:fixed; right:14px; bottom:12px;
+    font-size:10px; letter-spacing:.06em; color:var(--hint);
+    pointer-events:none; user-select:none;
+  }
+  #hud {
+    position:fixed; left:18px; top:16px; color:var(--ink);
+    font-size:12px; line-height:1.7; opacity:.75; pointer-events:none;
+  }
+  #hud b { font-size:15px; font-weight:600; }
+  /* 画幅四边软遮罩：叠在 canvas 上，让边缘融进背景色；不接收事件 */
+  #edge-fade {
+    position: fixed; inset: 0; pointer-events: none; z-index: 5;
+    /* 只做极轻的四周压暗感，绝不能在画面下半部糊白 */
+    background: radial-gradient(ellipse 88% 82% at 50% 46%,
+        rgba(247,243,233,0) 70%,
+        rgba(247,243,233,0.12) 88%,
+        rgba(247,243,233,0.42) 100%);
+  }
+  /* HUD 与提示在遮罩之上，否则左上角会被 92% 的底色盖掉 */
+  #hud, #hint { z-index: 10; }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/three.module.js",
+    "three/addons/": "./vendor/three/addons/"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="edge-fade"></div>
+  <div id="hud"><b>自动化园区</b><br><span id="hud-sub">载入中…</span></div>
+  <div id="hint">拖动旋转 · 滚轮缩放 · 右键平移 · 双击复位</div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

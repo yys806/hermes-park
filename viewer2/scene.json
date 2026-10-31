@@ -1,0 +1,450 @@
+{
+ "version": 1,
+ "modelDir": "../out/models/",
+ "note": "园区总场景配置。坐标单位米，x 向东、z 向南（+Z = 正南），rotY 为绕 Y 轴旋转角（度），地块本地 +Z 为正面。",
+ "camera": {
+  "fov": 36,
+  "homeTarget": [
+   0,
+   9,
+   -6
+  ],
+  "homeDistance": 198,
+  "homePolarDeg": 73,
+  "homeAzimuthDeg": 28
+ },
+ "plots": [
+  {
+   "id": "control",
+   "name": "中央大厅·全园中枢",
+   "file": "control.glb",
+   "kind": "hall",
+   "size": [
+    25,
+    25
+   ],
+   "pos": [
+    0,
+    0
+   ],
+   "rotY": 0,
+   "desc": "玻璃穹顶、内部环形轨道与机器人、室内 8 盏吊灯"
+  },
+  {
+   "id": "learn",
+   "name": "学习科研",
+   "file": "learn.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    0,
+    31
+   ],
+   "rotY": 180,
+   "desc": "图书馆与实验室"
+  },
+  {
+   "id": "daily",
+   "name": "日常事务",
+   "file": "daily.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    25.456,
+    25.456
+   ],
+   "rotY": -135,
+   "desc": "日常生活事务"
+  },
+  {
+   "id": "family",
+   "name": "家人事务",
+   "file": "family.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    31,
+    0
+   ],
+   "rotY": -90,
+   "desc": "禹府小院"
+  },
+  {
+   "id": "rainbow",
+   "name": "彩虹事务",
+   "file": "rainbow.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    25.456,
+    -25.456
+   ],
+   "rotY": -45,
+   "desc": "彩虹城堡"
+  },
+  {
+   "id": "vault",
+   "name": "资产管理",
+   "file": "vault.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    0,
+    -31
+   ],
+   "rotY": 0,
+   "desc": "金库；内部传送带汇总段，向外协三块分流"
+  },
+  {
+   "id": "press",
+   "name": "咨询新闻·报社",
+   "file": "press.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    -25.456,
+    -25.456
+   ],
+   "rotY": 45,
+   "desc": "报社与印刷间"
+  },
+  {
+   "id": "clock",
+   "name": "通知待办·钟楼",
+   "file": "clock.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    -31,
+    0
+   ],
+   "rotY": 90,
+   "desc": "钟楼"
+  },
+  {
+   "id": "inventor",
+   "name": "发明工坊·奇思妙想",
+   "file": "inventor.glb",
+   "kind": "plot",
+   "size": [
+    16,
+    16
+   ],
+   "pos": [
+    -25.456,
+    25.456
+   ],
+   "rotY": 135,
+   "desc": "发明工坊"
+  },
+  {
+   "id": "clawd",
+   "name": "Claude·外协",
+   "file": "clawd.glb",
+   "kind": "partner",
+   "size": [
+    20,
+    20
+   ],
+   "pos": [
+    -24.524,
+    -53.081
+   ],
+   "rotY": 48,
+   "round": 9.4,
+   "desc": "外协圆盘，四角有灯"
+  },
+  {
+   "id": "pi",
+   "name": "Pi·外协",
+   "file": "pi.glb",
+   "kind": "partner",
+   "size": [
+    20,
+    20
+   ],
+   "pos": [
+    0,
+    -64
+   ],
+   "rotY": 0,
+   "round": 9.4,
+   "desc": "外协圆盘，四角有灯"
+  },
+  {
+   "id": "codex",
+   "name": "Codex·外协",
+   "file": "codex.glb",
+   "kind": "partner",
+   "size": [
+    20,
+    20
+   ],
+   "pos": [
+    24.524,
+    -53.081
+   ],
+   "rotY": -48,
+   "round": 9.4,
+   "desc": "外协圆盘，四角有灯"
+  }
+ ],
+ "portsNote": "node = glb 里的节点原名（加载时按 three.js 规则去掉 '.' 等字符匹配）；axis = 出带方向（地块本地 xz）；local = 无现成接口时由代码生成法兰的位置（地块本地坐标）；y 省略则运行时实测。",
+ "belts": [
+  {
+   "id": "S",
+   "from": {
+    "plot": "control",
+    "node": "Track_S_belt.ct",
+    "axis": [
+     0,
+     1
+    ]
+   },
+   "to": {
+    "plot": "learn",
+    "node": "Port_Main_learn",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "SE",
+   "from": {
+    "plot": "control",
+    "node": "Track_SE_belt.ct",
+    "axis": [
+     0.7071,
+     0.7071
+    ]
+   },
+   "to": {
+    "plot": "daily",
+    "node": "Port_Main_daily",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "E",
+   "from": {
+    "plot": "control",
+    "node": "Track_E_belt.ct",
+    "axis": [
+     1,
+     0
+    ]
+   },
+   "to": {
+    "plot": "family",
+    "node": "Port_Main_family",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "NE",
+   "from": {
+    "plot": "control",
+    "node": "Track_NE_belt.ct",
+    "axis": [
+     0.7071,
+     -0.7071
+    ]
+   },
+   "to": {
+    "plot": "rainbow",
+    "node": "Port_Main_rainbow",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "N",
+   "from": {
+    "plot": "control",
+    "node": "Track_N_belt.ct",
+    "axis": [
+     0,
+     -1
+    ]
+   },
+   "to": {
+    "plot": "vault",
+    "node": "Port_Main_vault",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "NW",
+   "from": {
+    "plot": "control",
+    "node": "Track_NW_belt.ct",
+    "axis": [
+     -0.7071,
+     -0.7071
+    ]
+   },
+   "to": {
+    "plot": "press",
+    "node": "Port_Main_press",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "W",
+   "from": {
+    "plot": "control",
+    "node": "Track_W_belt.ct",
+    "axis": [
+     -1,
+     0
+    ]
+   },
+   "to": {
+    "plot": "clock",
+    "node": "Port_Main_clock",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "SW",
+   "from": {
+    "plot": "control",
+    "node": "Track_SW_belt.ct",
+    "axis": [
+     -0.7071,
+     0.7071
+    ]
+   },
+   "to": {
+    "plot": "inventor",
+    "node": "Port_Main_inventor",
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "V1",
+   "from": {
+    "plot": "vault",
+    "local": [
+     -5.5,
+     0.55,
+     -8.32
+    ],
+    "axis": [
+     -0.5,
+     -0.866
+    ]
+   },
+   "to": {
+    "plot": "clawd",
+    "local": [
+     0,
+     0.55,
+     9.02
+    ],
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "V2",
+   "from": {
+    "plot": "vault",
+    "local": [
+     0,
+     0.55,
+     -8.06
+    ],
+    "axis": [
+     0,
+     -1
+    ]
+   },
+   "to": {
+    "plot": "pi",
+    "local": [
+     0,
+     0.55,
+     9.02
+    ],
+    "axis": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "id": "V3",
+   "from": {
+    "plot": "vault",
+    "local": [
+     5.5,
+     0.55,
+     -8.32
+    ],
+    "axis": [
+     0.5,
+     -0.866
+    ]
+   },
+   "to": {
+    "plot": "codex",
+    "local": [
+     0,
+     0.55,
+     9.02
+    ],
+    "axis": [
+     0,
+     1
+    ]
+   }
+  }
+ ],
+ "modelDirOpt": "../out/models_opt2/"
+}

@@ -1,0 +1,186 @@
+{
+  "models": [
+    {
+      "id": "learn",
+      "name": "学习科研 · 新地块",
+      "file": "learn.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      },
+      "exposure": 1.0
+    },
+    {
+      "id": "family",
+      "name": "家人事务 · 新地块",
+      "file": "family.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "id": "rainbow",
+      "name": "彩虹事务 · 新地块",
+      "file": "rainbow.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "id": "daily",
+      "name": "日常事务 · 新地块",
+      "file": "daily.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      },
+      "exposure": 0.7
+    },
+    {
+      "id": "library",
+      "name": "图书馆 · 学习科研",
+      "file": "library.glb",
+      "status": "ready",
+      "group": "archive",
+      "size": {
+        "w": 0,
+        "h": 0,
+        "note": "v1 存档，尺寸作废"
+      }
+    },
+    {
+      "id": "post",
+      "name": "邮政局 · 日常事务",
+      "file": "post.glb",
+      "status": "ready",
+      "group": "archive",
+      "size": {
+        "w": 0,
+        "h": 0,
+        "note": "v1 存档，尺寸作废"
+      }
+    },
+    {
+      "id": "arch",
+      "name": "Rainbow's Castle · 彩虹事务",
+      "file": "castle_claude.glb",
+      "status": "ready",
+      "group": "archive",
+      "size": {
+        "w": 0,
+        "h": 0,
+        "note": "v1 存档，尺寸作废"
+      }
+    },
+    {
+      "id": "inventor",
+      "name": "发明工坊 · 奇思妙想",
+      "file": "inventor.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "id": "clock",
+      "name": "钟楼 · 通知待办",
+      "file": "clock.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "id": "vault",
+      "name": "金库 · 资产管理",
+      "file": "vault.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "id": "press",
+      "name": "报社 · 咨询新闻",
+      "file": "press.glb",
+      "status": "ready",
+      "size": {
+        "w": 16,
+        "h": 16
+      }
+    },
+    {
+      "id": "clawd",
+      "name": "Claude · 外协",
+      "file": "clawd.glb",
+      "status": "ready",
+      "size": {
+        "w": 20,
+        "h": 20
+      }
+    },
+    {
+      "id": "pi",
+      "name": "Pi · 外协",
+      "file": "pi.glb",
+      "status": "ready",
+      "size": {
+        "w": 20,
+        "h": 20
+      }
+    },
+    {
+      "id": "codex",
+      "name": "Codex · 外协",
+      "file": "codex.glb",
+      "status": "ready",
+      "size": {
+        "w": 20,
+        "h": 20
+      }
+    },
+    {
+      "id": "control",
+      "name": "中控台 · 全园中枢",
+      "file": "control.glb",
+      "status": "ready",
+      "size": {
+        "w": 25,
+        "h": 25
+      },
+      "exposure": 0.78
+    },
+    {
+      "id": "house",
+      "name": "家人小屋 · 禹府",
+      "file": "house.glb",
+      "status": "ready",
+      "group": "archive",
+      "size": {
+        "w": 0,
+        "h": 0,
+        "note": "v1 存档，尺寸作废"
+      }
+    },
+    {
+      "id": "site",
+      "name": "总体场景 · 园区环境",
+      "file": "site.glb",
+      "status": "pending"
+    }
+  ],
+  "standards": {
+    "size_16x16": "功能地块 8 块（学习科研/日常事务/彩虹事务/家人事务/奇思妙想/通知待办/资产管理/咨询新闻）",
+    "size_25x25": "中央大厅（中控台）1 块",
+    "size_20x20": "外协 3 块（Claude / Pi / Codex）"
+  }
+}

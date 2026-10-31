@@ -1,0 +1,51 @@
+# ===== 大体积产出 / 缓存（不进仓库）=====
+out/models/
+out/models_opt/
+out/shots_p0/
+out/renders/
+out/scripts/
+out/*.log
+cache/
+tools/
+_recycle/
+tmp_scripts/
+.viewer-test/
+logs/
+
+# 素材源文件与参考图（本地工作用）
+assets/lib/
+assets/house/
+assets/design-refs/
+assets/castle_from_tripo/
+assets-src/
+ref/
+art/
+prompts/
+
+# 备份目录
+_bak_*/
+viewer2/_bak_*/
+server/_bak_*/
+viewer2/*.bak*
+viewer/*.bak*
+
+# 临时文件
+*.log
+*.bak
+*.bak_*
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# 根目录的调试截图（不删本地，只是不入库）
+/*.png
+/*.jpg
+
+# 根目录零散工作笔记（不入库）
+/进度-*.md
+/交接-*.md
+/调研-*.md
+
+# 本地会话标记
+.claude-session

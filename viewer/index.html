@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>模型审核 · 查看器</title>
+<link rel="stylesheet" href="./style.css?v=20261030t">
+<script type="importmap">
+{
+  "imports": {
+    "three": "../vendor/three/three.module.js",
+    "three/addons/": "../vendor/three/addons/"
+  }
+}
+</script>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <canvas id="canvas" aria-label="3D 模型视图：左键拖动旋转，右键拖动平移，滚轮或双指缩放，双击复位"></canvas>
+
+    <div class="progress" id="progress" hidden><div class="progress__bar" id="progressBar"></div></div>
+
+    <div class="notice" id="notice" role="status" hidden>
+      <p class="notice__title" id="noticeTitle">该模型尚未生成</p>
+      <p class="notice__detail" id="noticeDetail"></p>
+      <button class="btn btn--primary" id="noticeNext" type="button">下一个</button>
+    </div>
+
+    <p class="hint">左键拖动旋转 · 右键拖动平移 · 滚轮缩放 · 双击复位 · ← → 切换 · R 复位</p>
+  </main>
+
+  <aside class="panel" id="panel">
+    <button class="panel__head" id="panelToggle" type="button" aria-expanded="true" aria-controls="modelList">
+      <span class="panel__title">模型库</span>
+      <span class="panel__count" id="count">0 / 0</span>
+      <span class="panel__current" id="panelCurrent"></span>
+      <svg class="panel__chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" /></svg>
+    </button>
+    <ul class="list" id="modelList" aria-label="模型列表"></ul>
+  </aside>
+
+  <div class="toolbar">
+    <a class="btn" href="../viewer2/index.html" title="回园区总场景" style="text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
+      <svg viewBox="0 0 16 16" aria-hidden="true" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;"><path d="M2 8.5 8 3l6 5.5"/><path d="M4 7.5V13h8V7.5"/></svg>
+      <span>总场景</span>
+    </a>
+    <button class="btn" id="btnRotate" type="button" aria-pressed="false" title="自动旋转">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9" /><path d="M12.5 1.5v3h-3" /></svg>
+      <span>自动旋转</span>
+    </button>
+    <button class="btn" id="btnReset" type="button" title="复位视角（R / 双击）">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" /><circle cx="8" cy="8" r="1.5" /></svg>
+      <span>复位</span>
+    </button>
+    <button class="btn" id="btnNight" type="button" aria-pressed="false" title="夜间模式：压暗天光，看灯光效果">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 9.5A5.5 5.5 0 0 1 6.5 3a5.5 5.5 0 1 0 6.5 6.5z" /></svg>
+      <span>夜间</span>
+    </button>
+    <div class="seasons" id="seasons" role="group" aria-label="季节切换" hidden>
+      <button class="btn btn--season" data-season="spring" type="button" aria-pressed="true" title="春季">春</button>
+      <button class="btn btn--season" data-season="summer" type="button" aria-pressed="false" title="夏季">夏</button>
+      <button class="btn btn--season" data-season="autumn" type="button" aria-pressed="false" title="秋季：树叶转黄">秋</button>
+      <button class="btn btn--season" data-season="winter" type="button" aria-pressed="false" title="冬季：树叶落尽、积雪">冬</button>
+    </div>
+  </div>
+
+  <section class="lamps" id="lamps" aria-labelledby="lampsTitle" hidden>
+    <header class="lamps__head">
+      <span class="lamps__title" id="lampsTitle">灯光</span>
+      <span class="lamps__count" id="lampCount" aria-live="polite">0 / 0</span>
+      <div class="lamps__actions">
+        <button class="icon-btn" id="lampAllOn" type="button" title="全部打开" aria-label="全部打开">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path class="icon-fill" d="M8 4.2a3.2 3.2 0 0 0-1.9 5.8c.4.3.6.7.6 1.2h2.6c0-.5.2-.9.6-1.2A3.2 3.2 0 0 0 8 4.2z" /><path d="M6.9 13.6h2.2M8 1v1.3M3.2 3l.9.9M12.8 3l-.9.9M1.5 7.4h1.3M13.2 7.4h1.3" /></svg>
+        </button>
+        <button class="icon-btn" id="lampAllOff" type="button" title="全部关闭" aria-label="全部关闭">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2a4 4 0 0 0-2.4 7.2c.5.4.8.9.8 1.6h3.2c0-.7.3-1.2.8-1.6A4 4 0 0 0 8 2zM6.6 13.4h2.8M2.5 2.5l11 11" /></svg>
+        </button>
+      </div>
+    </header>
+    <ul class="lamps__list" id="lampList" aria-label="灯光开关"></ul>
+  </section>
+
+  <footer class="info" id="info" aria-live="polite">
+    <span class="info__name" id="infoName">—</span>
+    <span class="info__item" id="infoPlot" hidden></span>
+    <span class="info__item"><b id="infoMeshes">—</b> mesh</span>
+    <span class="info__item"><b id="infoTris">—</b> 三角面</span>
+    <span class="info__item"><b id="infoSize">—</b></span>
+  </footer>
+
+  <script type="module" src="./viewer.js?v=20261030t"></script>
+</body>
+</html>
